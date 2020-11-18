@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5 pb-5 mb-2" id="poster">
+        
+
+    </div>
+    
+    <script>
+        let requestURL = 'music.json';
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                dataReportStatus(JSON.parse(request.responseText));
+            }
+        };
+        request.open("GET", requestURL, true);
+        request.send();
+
+        function dataReportStatus(data) {
+            var list = data.tracks;
+            var txt = "";
+            for(let i = 0;i < list.items.length;i++){
+                txt += "<div class='row mb-2'><div class='col-md-4 d-inline-block'><div class='card' style='width:640px'>"+
+                    "<div class='card-img img'>" + "<img src='" +list.items[i].album.images[0].url+ "' height='640' width='640'>" + "</div>"+
+                    "<div class='card-body'>"; + "<div class='card-text'>"
+                    ;
+                txt += "<h5>"+ list.items[i].album.name + "</h5><br>";
+                // document.write(list.items[i].album.name+"--<br>");
+                // document.write(list.items[i].album.release_date+"-<br>");
+                // document.write(list.items[i].album.available_markets.length+"<br>");
+
+                for(let j = 0;j < data.tracks.items[i].album.artists.length;j++){
+                    txt += "<p>Artist : " + list.items[i].album.artists[j].name +"</p>";
+                }
+                txt += "<p>Release date : " + list.items[i].album.release_date + "</p>"
+                    + "<p> Avaliable " + list.items[i].album.available_markets.length+ " countries</p>"
+                    +"</div>"+"</div>"+"</div>"+"</div>"+"</div>";
+
+            }
+            document.getElementById("poster").innerHTML = txt;
+        }
+    </script>
+</body>
+</html>
