@@ -35,14 +35,19 @@
         $url = "https://dd-wtlab2020.netlify.app/pre-final/ezquiz.json";    
         $response = file_get_contents($url);
         $result = json_decode($response);
-        $sele = $_POST['name'];
+        $sele = $_POST['ans'];
         $track = $result->tracks;
         foreach ($track->items as $trak){
             
                 // echo $trak->album->name;
                 // echo $trak->album->artists[0]->name;
+                $namesong = $trak->album->images[0]->url;
+                $namesong2 = $trak->album->name;
+                $artist = $trak->album->artists[0]->name;
+                $date = $trak->album->$release_date;
+                $num = strlen($trak->album->$available_markets);
             
-            if($trak->album->name == $sele){
+            if($trak->album->name == $sele or $trak->album->artists[0]->name == $sele){
                 echo "<div class='row mt-5'>
             <div class='col-md-1'></div>
             <div class='col-md-10'>
@@ -50,16 +55,16 @@
                 <div class='card' style='width: 60%; float:none; margin: 0 auto;'>
                     <div class='row'>
                         <div class='col-md-12'>
-                            <img src='"+ $trak->album->images[0]->url + "' class='card-img-top mx-auto d-block' style='width:100%'>
+                            <img src='$namesong' class='card-img-top mx-auto d-block' style='width:100%'>
                         </div>
                     </div>
                     <div class='card-body'>
                         <div class='row'>
                             <div class='col-md-12 p-2'>
-                                <b><p style='font-size: 22px';>"+ $trak->album->name+"</p></b>
-                                <p style='color: red'>Artist : "+ $trak->album->artists[0]->name+ "</p>
-                                <p>Release date : "+ $trak->album->album.$release_date+"</p>
-                                <p>Avaliable : "+strlen($trak->album->album.$available_markets)+"</p>
+                                <b><p style='font-size: 22px';>$namesong2</p></b>
+                                <p style='color: red'>Artist : $artist</p>
+                                <p>Release date : $date</p>
+                                <p>Avaliable : $num</p>
                             </div>
                         </div>
                     </div>
